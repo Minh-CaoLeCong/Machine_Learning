@@ -1,0 +1,3 @@
+﻿  Machine_Learning_Algorithms.cpp
+e:\cvs\project\learning_machine_learning\machine_learning_algorithms\machine_learning_algorithms.cpp(421): warning C4101: 'temp': unreferenced local variable
+  Machine_Learning_Algorithms.vcxproj -> E:\CVS\Project\Learning_Machine_Learning\Machine_Learning_Algorithms\x64\Debug\Machine_Learning_Algorithms.exe
