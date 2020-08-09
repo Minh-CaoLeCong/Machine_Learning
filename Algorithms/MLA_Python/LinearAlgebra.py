@@ -92,3 +92,41 @@ def distance(vec1, vec2):
 # another way
 def distance1(vec1, vec2):
     return magnitude(sub2Vector(vec1, vec2))
+
+def shape(matrix):
+    """
+    Return the number of rows and column of a matrix (list of lists)
+    """
+    numRows = len(matrix)
+    numCols = len(matrix[0]) if matrix else 0   # the number of elements 
+                                                # in the first row of a matrix
+    return numRows, numCols
+
+def getRow(matrix, i):
+    """
+    Return the ith row of a matrix
+    """
+    return matrix[i]
+
+def getColumn(matrix, j):
+    """
+    Return the jth column of a matrix
+    """
+    return [matrix_i[j] for matrix_i in matrix]
+
+def createMatrix(numRows, numCols, func):
+    """
+    Create a matrix given its shape (rows and columns) 
+    and a function for generating its elements.
+    """
+    return [[func(i, j) for j in range(numCols)] for i in range (numRows)]
+
+def identityMatrix(i, j):
+    """
+    Create a identity matrix.
+    Example: identity_matrix = createMatrix(3, 3, identityMatrix)
+            # [[1, 0, 0],
+            #  [0, 1, 0],
+            #  [0, 0, 1]]
+    """
+    return 1 if i == j else 0
