@@ -24,22 +24,22 @@
 /// ****** Define for Stochastic_Gradient_Descent() function ****** ///
 // NOTED: Stochastic Gradient Descent - SGD
 
-#define SGD_scale_input_data_examples	1000
-#define SGD_scale_out_variable_examples	1000
+#define SGD_average_scale_data	0
+#define SGD_range_scale_data	1
 
-#define SGD_learning_rate	0.001
+#define SGD_learning_rate		0.01
 
 // Hypothesis: h(x) = theta0 + theta1 * x
 #define SGD_theta0						0
 #define SGD_theta1						0
 #define SGD_epoch						1000
-#define SGD_number_of_training_example	47
+#define SGD_number_of_training_example	7
 
 // Write all results (b0, b1, error) to a .txt file
 //#define SGD_Output_results_txt	// Enable or disable to export .txt file or not
 
 // Input dataset
-#define SGD_Input_dataset_from_txt
+//#define SGD_Input_dataset_from_txt
 
 /// Functions
 void Stochastic_Gradient_Descent();
@@ -48,10 +48,10 @@ void Stochastic_Gradient_Descent();
 
 /// ****** Define for NormalEquation() function ****** ///
 // NOTED: Normal Equation - NE
-#define NE_Scale_Data
+//#define NE_Scale_Data
 
-#define NENumberOfTrainingExample 47
-#define NENumberOfFeatures 1
+#define NENumberOfTrainingExample	47
+#define NENumberOfFeatures			1
 
 #ifdef NE_Scale_Data
 #define NE_scale_input_data_examples	1000
@@ -61,8 +61,11 @@ void Stochastic_Gradient_Descent();
 extern float X[NENumberOfTrainingExample][NENumberOfFeatures + 1];
 extern float X_transpose[NENumberOfFeatures + 1][NENumberOfTrainingExample];
 extern float Y[NENumberOfTrainingExample];
-extern float X_X_transpose[NENumberOfTrainingExample][NENumberOfTrainingExample];
-extern float inverse_X_X_transpose[NENumberOfTrainingExample][NENumberOfTrainingExample];
+extern float X_X_transpose[NENumberOfFeatures + 1][NENumberOfFeatures + 1];
+extern float inverse_X_X_transpose[NENumberOfFeatures + 1][NENumberOfFeatures + 1];
+extern float inverse_X_X_transpose_X_transpose[NENumberOfFeatures + 1][NENumberOfTrainingExample];
+extern float thetaResultGraDes[NENumberOfFeatures + 1][1];
+
 
 /// Functions:
 void NormalEquation();

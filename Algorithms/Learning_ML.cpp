@@ -20,9 +20,9 @@ using namespace std;
 int main()
 {
 
-	cout << "\nHello World!\n\n";
-	//Stochastic_Gradient_Descent();
-
+	cout << "\nHello World!\n\n" << endl;
+	NormalEquation();
+	cout << "--------------------------DONE--------------------------" << endl;
 	/*int arr[][2] = { {1, 2104}, {1,1416}, {1, 2104}, {1,1416}, {1, 2104}, {1,1416}, {1, 2104}, {1,1416}, };
 	unsigned int n = sizeof(arr) / sizeof(arr[0][0]);
 	cout << sizeof(arr) << endl;
@@ -31,7 +31,7 @@ int main()
 
 	/*NormalEquation();*/
 
-	kNN_Example();
+	//kNN_Example();
 }
 
 /////////////////////////////////////////////////

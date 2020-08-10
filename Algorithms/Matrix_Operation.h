@@ -20,7 +20,7 @@
 #endif // Machine_Learning_Algorithms_h
 
 #define M 3
-#define N 47
+#define N 2
 #define my_sizeof(type) ((char *)(&type+1) - (char *)(&type))
 
 

@@ -33,7 +33,7 @@ void Stochastic_Gradient_Descent()
 
 #ifdef SGD_Input_dataset_from_txt
 
-	char SGD_Input_dataset_from_txt_file_name_path[] = "E:/CVS/Project/Learning_Machine_Learning/Dataset/Dataset_housing_prices_in_Portland.txt";
+	char SGD_Input_dataset_from_txt_file_name_path[] = "E:/CVS/Project/Machine_Learning/Dataset/Dataset_housing_prices_in_Portland.txt";
 
 	FILE *fp_input_txt = fopen(SGD_Input_dataset_from_txt_file_name_path, "rt");
 
@@ -52,19 +52,24 @@ void Stochastic_Gradient_Descent()
 #ifndef SGD_Input_dataset_from_txt
 
 	// Input features
-	double x[] = { 2104, 1600, 2400, 1416, 3000, 1985, 1534, 1427, 1380, 1494, 1940,
-					2000, 1890, 4478, 1268, 2300, 1320, 1236, 2609, 3031, 1767, 1888,
-					1604, 1962, 3890, 1100, 1458, 2526, 2200, 2637, 1839, 1000, 2040,
-					3137, 1811, 1437, 1239, 2132, 4215, 2162, 1664, 2238, 2567, 1200,
-					852,  1852, 1203 };
+	//double x[] = { 2104, 1600, 2400, 1416, 3000, 1985, 1534, 1427, 1380, 1494, 1940,
+	//				2000, 1890, 4478, 1268, 2300, 1320, 1236, 2609, 3031, 1767, 1888,
+	//				1604, 1962, 3890, 1100, 1458, 2526, 2200, 2637, 1839, 1000, 2040,
+	//				3137, 1811, 1437, 1239, 2132, 4215, 2162, 1664, 2238, 2567, 1200,
+	//				852,  1852, 1203 };
 
+	//// Output variable
+	//double y[] = { 399900, 329900, 369000, 232000, 539900, 299900, 314900, 198999,
+	//				212000, 242500, 239999, 347000, 329999, 699900, 259900, 449900,
+	//				299900, 199900, 499998, 599000, 252900, 255000, 242900, 259900,
+	//				573900, 249900, 464500, 469000, 475000, 299900, 349900, 169900,
+	//				314900, 579900, 285900, 249900, 229900, 345000, 549000, 287000,
+	//				368500, 329900, 314000, 299000, 179900, 299900, 239500 };
+
+	double x[] = { 1, 2, 3, 4, 5, 6, 7};
 	// Output variable
-	double y[] = { 399900, 329900, 369000, 232000, 539900, 299900, 314900, 198999,
-					212000, 242500, 239999, 347000, 329999, 699900, 259900, 449900,
-					299900, 199900, 499998, 599000, 252900, 255000, 242900, 259900,
-					573900, 249900, 464500, 469000, 475000, 299900, 349900, 169900,
-					314900, 579900, 285900, 249900, 229900, 345000, 549000, 287000,
-					368500, 329900, 314000, 299000, 179900, 299900, 239500 };
+	double y[] = { 1, 2, 3, 4, 5, 6, 7};
+
 
 #endif
 
@@ -80,7 +85,7 @@ void Stochastic_Gradient_Descent()
 
 #ifdef SGD_Output_results_txt
 
-	char SGD_Output_result_txt_file_name_path[] = "E:/CVS/Project/Learning_Machine_Learning/Output_files/Stochastic_Gradient_Descent/b0_b1_err.txt"
+	char SGD_Output_result_txt_file_name_path[] = "E:/CVS/Project/Machine_Learning/Output_files/Stochastic_Gradient_Descent/b0_b1_err.txt"
 
 	FILE *fp_output_txt = fopen(SGD_Output_result_txt_file_name_path, "wt");
 	fprintf(fp_output_txt, "B0\t\tB1\t\terror\n");
@@ -91,11 +96,11 @@ void Stochastic_Gradient_Descent()
 	{
 		int idx = i % SGD_number_of_training_example;
 		// Hypothesis: p = SGD_beta0 + SGD_beta1 * x
-		double p = b0 + b1 * (x[idx] / SGD_scale_input_data_examples);
-		double err = p - (y[idx] / SGD_scale_out_variable_examples);
+		double p = b0 + b1 * ((x[idx] - SGD_average_scale_data) / SGD_range_scale_data);
+		double err = p - ((y[idx] - SGD_average_scale_data) / SGD_range_scale_data);
 		// Update b0 and b1
 		b0 = b0 - alpha * err;
-		b1 = b1 - alpha * err * (x[idx] / SGD_scale_input_data_examples);
+		b1 = b1 - alpha * err * ((x[idx] - SGD_average_scale_data) / SGD_range_scale_data);
 		printf("B0 = %f, B1 = %f, error = %f\n", b0, b1, err);
 		if (idx == (SGD_number_of_training_example - 1))
 		{
@@ -126,8 +131,10 @@ void Stochastic_Gradient_Descent()
 float X[NENumberOfTrainingExample][NENumberOfFeatures + 1];
 float X_transpose[NENumberOfFeatures + 1][NENumberOfTrainingExample];
 float Y[NENumberOfTrainingExample];
-float X_X_transpose[NENumberOfTrainingExample][NENumberOfTrainingExample];
-float inverse_X_X_transpose[NENumberOfTrainingExample][NENumberOfTrainingExample];
+float X_X_transpose[NENumberOfFeatures + 1][NENumberOfFeatures + 1];
+float inverse_X_X_transpose[NENumberOfFeatures + 1][NENumberOfFeatures + 1];
+float inverse_X_X_transpose_X_transpose[NENumberOfFeatures + 1][NENumberOfTrainingExample];
+float thetaResultGraDes[NENumberOfFeatures + 1][1];
 
 //float arr[3][3] = { {0.2, 0.2, 0}, {-0.2, 0.3, 1}, {0.2, -0.3, 0} };
 ////float arr[3][3] = { {3.0, 0.0, 2.0}, {2.0, 0, -2.0}, {0.0, 1.0, 1.0} };
@@ -137,7 +144,8 @@ void NormalEquation()
 {
 	NEImportDataset();
 
-	/*printf("\n\n\n");
+	/*printf("\n\n");
+	printf("X:\n");
 	for (int i = 0; i < NENumberOfTrainingExample; i++)
 	{
 		for (int j = 0; j < NENumberOfFeatures + 1; j++)
@@ -147,12 +155,15 @@ void NormalEquation()
 		printf("\n");
 	}*/
 
-	/*for (int i = 0; i < NENumberOfTrainingExample; i++)
+	/*printf("\n\n");
+	printf("Y:\n");
+	for (int i = 0; i < NENumberOfTrainingExample; i++)
 	{
 		printf("%f\n", Y[i]);
 	}*/
 
-	/*printf("\n\n\n");
+	/*printf("\n\n");
+	printf("X_transpose init:\n");
 	for (int i = 0; i < NENumberOfFeatures + 1; i++)
 	{
 		for (int j = 0; j < NENumberOfTrainingExample; j++)
@@ -164,7 +175,8 @@ void NormalEquation()
 
 	Transpose((float *)X, (float *)X_transpose, NENumberOfTrainingExample, NENumberOfFeatures + 1);
 
-	/*printf("\n\n\n");
+	/*printf("\n\n");
+	printf("X_transpose:\n");
 	for (int i = 0; i < NENumberOfFeatures + 1; i++)
 	{
 		for (int j = 0; j < NENumberOfTrainingExample; j++)
@@ -174,79 +186,114 @@ void NormalEquation()
 		printf("\n");
 	}*/
 
-	/*printf("\n\n\n");
-	for (int i = 0; i < NENumberOfTrainingExample; i++)
+	/*printf("\n\n");
+	printf("X_X_transpose init:\n");
+	for (int i = 0; i < NENumberOfFeatures + 1; i++)
 	{
-		for (int j = 0; j < NENumberOfTrainingExample; j++)
+		for (int j = 0; j < NENumberOfFeatures + 1; j++)
 		{
 			printf("%f\t", X_X_transpose[i][j]);
 		}
 		printf("\n");
 	}*/
 
-	Multiply((float *)X, (float *)X_transpose, (float *)X_X_transpose,
-		NENumberOfTrainingExample, NENumberOfFeatures + 1, NENumberOfFeatures + 1, NENumberOfTrainingExample);
+	Multiply((float *)X_transpose, (float *)X, (float *)X_X_transpose,
+		NENumberOfFeatures + 1, NENumberOfTrainingExample, NENumberOfTrainingExample, NENumberOfFeatures + 1);
 
-	//printf("\n\n\n");
-	///*for (int loop = 0; loop < 1000000; loop++)
-	//{
-	//	for (int i = 0; i < NENumberOfTrainingExample; i++)
-	//	{
-	//		for (int j = 0; j < NENumberOfTrainingExample; j++)
-	//		{
-	//			printf("%f\t", X_X_transpose[i][j]);
-	//		}
-	//		printf("\n");
-	//	}
-	//}*/
-	/*printf("\n\n\n");
-	for (int i = 0; i < NENumberOfTrainingExample; i++)
+	/*printf("\n\n");
+	printf("X_X_transpose:\n");
+	for (int i = 0; i < NENumberOfFeatures + 1; i++)
 	{
-		for (int j = 0; j < NENumberOfTrainingExample; j++)
+		for (int j = 0; j < NENumberOfFeatures + 1; j++)
 		{
 			printf("%f  ", X_X_transpose[i][j]);
 		}
 		printf("\n");
-	}
-	cout << sizeof(X_X_transpose) << endl;*/
+	}*/
 	
-	/*printf("\n\n\n");
-	for (int i = 0; i < NENumberOfTrainingExample; i++)
+	/*printf("\n\n");
+	printf("inverse_X_X_transpose init:\n");
+	for (int i = 0; i < NENumberOfFeatures + 1; i++)
 	{
-		for (int j = 0; j < NENumberOfTrainingExample; j++)
+		for (int j = 0; j < NENumberOfFeatures + 1; j++)
 		{
 			printf("%f  ", inverse_X_X_transpose[i][j]);
 		}
 		printf("\n");
-	}
+	}*/
 
 	if (inverse(X_X_transpose, inverse_X_X_transpose))
 	{
-		printf("\n\n\nTRUE!!!\n\n");
-		for (int i = 0; i < NENumberOfTrainingExample; i++)
+		printf("\n\nTRUE!!!\n");
+		printf("inverse_X_X_transpose:\n");
+		for (int i = 0; i < NENumberOfFeatures + 1; i++)
 		{
-			for (int j = 0; j < NENumberOfTrainingExample; j++)
+			for (int j = 0; j < NENumberOfFeatures + 1; j++)
 			{
 				printf("%f  ", inverse_X_X_transpose[i][j]);
 			}
 			printf("\n");
 		}
-		printf("\nTRUE!!!");
+		printf("TRUE!!!");
 	}
 	else
-		printf("\n\n\nFALSE!!!");*/
+		printf("\n\n\nFALSE!!!");
 
-	/*if (inverse(arr, inv_arr))
-		display_square_matrix(inv_arr);*/
+	/*printf("\n\n");
+	printf("inverse_X_X_transpose_X_transpose init:\n");
+	for (int i = 0; i < NENumberOfFeatures + 1; i++)
+	{
+		for (int j = 0; j < NENumberOfTrainingExample; j++)
+		{
+			printf("%f  ", inverse_X_X_transpose_X_transpose[i][j]);
+		}
+		printf("\n");
+	}*/
 
-	//cout << my_sizeof(X) << endl; // 376
-	//cout << my_sizeof(X) / my_sizeof(X[0][0]) << endl; // 94
-	//cout << my_sizeof(X) / my_sizeof(X[0]) << endl; // 47
+	Multiply((float *)inverse_X_X_transpose, (float *)X_transpose, (float *)inverse_X_X_transpose_X_transpose,
+		NENumberOfFeatures + 1, NENumberOfFeatures + 1, NENumberOfFeatures + 1, NENumberOfTrainingExample);
+
+	/*printf("\n\n");
+	printf("inverse_X_X_transpose_X_transpose:\n");
+	for (int i = 0; i < NENumberOfFeatures + 1; i++)
+	{
+		for (int j = 0; j < NENumberOfTrainingExample; j++)
+		{
+			printf("%f  ", inverse_X_X_transpose_X_transpose[i][j]);
+		}
+		printf("\n");
+	}*/
+
+	/*printf("\n\n");
+	printf("thetaResultGraDes init:\n");
+	for (int i = 0; i < NENumberOfFeatures + 1; i++)
+	{
+		for (int j = 0; j < 1; j++)
+		{
+			printf("%f  ", thetaResultGraDes[i][j]);
+		}
+		printf("\n");
+	}*/
+
+	Multiply((float *)inverse_X_X_transpose_X_transpose, (float *)Y, (float *)thetaResultGraDes,
+		NENumberOfFeatures + 1, NENumberOfTrainingExample, NENumberOfTrainingExample, 1);
+
+	printf("\n\n");
+	printf("thetaResultGraDes:\n");
+	for (int i = 0; i < NENumberOfFeatures + 1; i++)
+	{
+		for (int j = 0; j < 1; j++)
+		{
+			printf("%f  ", thetaResultGraDes[i][j]);
+		}
+		printf("\n");
+	}
+
 }
 
 void NEImportDataset()
 {
-	char NEImportDatasetFromtxtFileNamePath[] = "E:/CVS/Project/Learning_Machine_Learning/Dataset/Dataset_housing_prices_in_Portland.txt";
+	char NEImportDatasetFromtxtFileNamePath[] = "E:/CVS/Project/Machine_Learning/Dataset/Dataset_housing_prices_in_Portland.txt";
 
 	FILE *fpInputTxt = fopen(NEImportDatasetFromtxtFileNamePath, "rt");
 
