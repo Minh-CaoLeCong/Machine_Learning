@@ -1,4 +1,6 @@
 from collections import Counter
+from LinearAlgebra import *
+import math
 
 def mean(x):
     return sum(x) / len(x)
@@ -36,3 +38,30 @@ def mode(x):
     maxCounts = max(counts.value())
     return [x_i for x_i, count in counts.iteritems()
             if count == maxCounts]
+
+def dataRange(x):
+    """
+    0 if the max and min are equal or the elements of x are all the same.
+    """
+    return max(x) - min(x)
+
+def deMean(x):
+    """
+    Translate x by subtracting its mean (so the result has mean 0).
+    """
+    xBar = mean(x)
+    return [x_i - xBar for x_i in x]
+
+def variance(x):
+    """
+    Assumes x has at leats two elements.
+    """
+    xLength = len(x)
+    deviations = deMean(x)
+    return sumSquares(deviations) / (xLength - 1) # 'sumSquares' in LinearAlgebra.py
+
+def standardDeviation(x):
+    return math.sqrt(variance(x))
+
+def interquartileRange(x):
+    return quantile(x, 0.75) - quantile(x, 0.25)
