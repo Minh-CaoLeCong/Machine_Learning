@@ -11,11 +11,11 @@ def median(x):
     if the number of data points is odd or the average of the two middle-most values
     if the number of data points is even.
     """
-    xLength = len(x)
+    xLen = len(x)
     xSorted = sorted(x)         # sorting
-    midpoint = xLength // 2
+    midpoint = xLen // 2
 
-    if xLength % 2 == 1:
+    if xLen % 2 == 1:
         # return the middle-most value if odd
         return xSorted[midpoint]
     else:
@@ -56,12 +56,24 @@ def variance(x):
     """
     Assumes x has at leats two elements.
     """
-    xLength = len(x)
+    xLen = len(x)
     deviations = deMean(x)
-    return sumSquares(deviations) / (xLength - 1) # 'sumSquares' in LinearAlgebra.py
+    return sumSquares(deviations) / (xLen - 1) # 'sumSquares' in LinearAlgebra.py
 
 def standardDeviation(x):
     return math.sqrt(variance(x))
 
 def interquartileRange(x):
     return quantile(x, 0.75) - quantile(x, 0.25)
+
+def covariance(x, y):
+    xLen = len(x)
+    return dotProduct(deMean(x), deMean(y)) / (n - 1)
+
+def correlation(x, y):
+    standardDeviation_x = standardDeviation(x)
+    standardDeviation_y = standardDeviation(y)
+    if standardDeviation_x > 0 and standardDeviation_y > 0:
+        return covariance(x, y) / standardDeviation_x / standardDeviation_y
+    else:
+        return 0
